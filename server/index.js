@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from this origin
+    origin: 'https://appointment-system-azyh.onrender.com/', // Allow requests from this origin
     methods: '*', // Allow these HTTP methods
     allowedHeaders: 'Content-Type,Authorization', // Allow these headers
     credentials: true // Allow cookies to be sent with requests
