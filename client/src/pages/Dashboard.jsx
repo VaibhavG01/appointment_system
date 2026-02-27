@@ -37,7 +37,7 @@ export default function Dashboard() {
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('form/getform',);
+      const response = await api.get('form/getform');
       const data = Array.isArray(response.data) ? response.data : [];
       setSubmissions(data);
 

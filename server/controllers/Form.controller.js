@@ -28,36 +28,115 @@ export const formData = async (req, res) => {
         console.log(submissionId)
 
         // 2. Send acknowledgment email to user
-        const userSubject = 'We received your appointment request';
+        const userSubject = 'VG Tech Studio | Appointment Request Received';
+
         const userHtml = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #2c3e50;">Thank you for contacting us, ${name}!</h2>
-                <p style="font-size: 16px; color: #34495e;">We have received your appointment request and will review it shortly.</p>
-                <p style="font-size: 16px; color: #34495e;">Our team will contact you soon to schedule your appointment at a convenient time.</p>
-                <p style="font-size: 16px; color: #34495e;">You will receive a confirmation email once your appointment is fixed.</p>
-                <p style="font-size: 16px; color: #34495e;"><strong>Your message:</strong><br>${message}</p>
-                <p style="font-size: 16px; color: #34495e;">If you have any urgent questions, please call us at +123456789.</p>
-                <hr style="border: 1px solid #ecf0f1;">
-                <p style="font-size: 14px; color: #7f8c8d;">Best regards,<br>Your Company Name</p>
+            <div style="font-family: 'Segoe UI', sans-serif; background:#f4f6f9; padding:40px 20px;">
+            <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.08);">
+                
+                <div style="background:#232055; padding:20px; text-align:center;">
+                <h2 style="color:#ffffff; margin:0;">VG Tech Studio</h2>
+                <p style="color:#cbd3ff; margin:5px 0 0;">Digital Solutions & Development</p>
+                </div>
+
+                <div style="padding:30px;">
+                <h3 style="color:#232055;">Hello ${name},</h3>
+                <p style="font-size:15px; color:#555;">
+                    Thank you for reaching out to <strong>VG Tech Studio</strong>.
+                    We have successfully received your appointment request.
+                </p>
+
+                <div style="background:#f1f3ff; padding:15px; border-left:4px solid #4088c7; margin:20px 0;">
+                    <p><strong>Your Message:</strong></p>
+                    <p style="margin:0;">${message}</p>
+                </div>
+
+                <p style="font-size:15px; color:#555;">
+                    Our team will review your request and get back to you within <strong>24 hours</strong>.
+                </p>
+
+                <p style="font-size:14px; color:#777;">
+                    If this is urgent, please contact us directly.
+                </p>
+
+                <hr style="border:none; border-top:1px solid #eee; margin:25px 0;">
+
+                <p style="font-size:14px; color:#888;">
+                    Regards,<br>
+                    <strong>VG Tech Studio Team</strong><br>
+                    Building Digital Presence That Converts 🚀
+                </p>
+                </div>
             </div>
-        `;
-        const userText = `Thank you for contacting us, ${name}!\n\nWe have received your message and will get back to you within 24 hours.\n\nYour message: ${message}\n\nIf you have any urgent questions, please call us at +123456789.\n\nBest regards,\nYour Company Name`;
+            </div>
+            `;
+
+        const userText = `
+            Hello ${name},
+
+            Thank you for contacting VG Tech Studio.
+            We have received your appointment request.
+
+            Your Message:
+            ${message}
+
+            Our team will respond within 24 hours.
+
+            Regards,
+            VG Tech Studio
+            `;
 
         await sendEmail(email, userSubject, userText, userHtml);
 
         // 3. Send notification email to admin (now using submissionId)
-        const adminSubject = 'New Appointment Request Received';
+        const adminSubject = 'New Appointment | VG Tech Studio';
+
         const adminHtml = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px;">
-                <h3>New appointment request</h3>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Location:</strong> ${location}</p>
-                <p><strong>Message:</strong> ${message}</p>
-                <p><a href="${process.env.ADMIN_PANEL_URL}/submissions/${submissionId}" style="background: #3498db; color: white; padding: 10px 20px; text-decoration: none;">View in Admin Panel</a></p>
-            </div>
+                <div style="font-family: 'Segoe UI', sans-serif; background:#f8f9fc; padding:30px;">
+                <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:10px; padding:25px; box-shadow:0 5px 20px rgba(0,0,0,0.05);">
+                    
+                    <h2 style="color:#232055; margin-bottom:20px;">New Appointment Request</h2>
+
+                    <table style="width:100%; font-size:14px; border-collapse:collapse;">
+                    <tr>
+                        <td style="padding:8px 0;"><strong>Name:</strong></td>
+                        <td>${name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px 0;"><strong>Email:</strong></td>
+                        <td>${email}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px 0;"><strong>Location:</strong></td>
+                        <td>${location}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px 0;"><strong>Message:</strong></td>
+                        <td>${message}</td>
+                    </tr>
+                    </table>
+
+                    <div style="text-align:center; margin-top:25px;">
+                    <a href="${process.env.ADMIN_PANEL_URL}/submissions/${submissionId}" 
+                        style="background:#4088c7; color:#fff; padding:12px 25px; text-decoration:none; border-radius:6px; font-weight:600;">
+                        View in Admin Panel
+                    </a>
+                    </div>
+
+                </div>
+                </div>
         `;
-        const adminText = `New appointment request from ${name} (${email}). Location: ${location}. Message: ${message}`;
+
+        const adminText = `
+            New Appointment Request - VG Tech Studio
+
+            Name: ${name}
+            Email: ${email}
+            Location: ${location}
+            Message: ${message}
+
+            View: ${process.env.ADMIN_PANEL_URL}/submissions/${submissionId}
+        `;
 
         await sendEmail(process.env.ADMIN_EMAIL, adminSubject, adminText, adminHtml);
 
@@ -76,6 +155,7 @@ export const formData = async (req, res) => {
 export const getSubmissions = async (req, res) => {
     try {
         const submissions = await FormSubmission.find().sort({ createdAt: -1 });
+        console.log('Fetched submissions:', submissions);
         res.status(200).json(submissions);
     } catch (error) {
         console.error('Error fetching submissions:', error);

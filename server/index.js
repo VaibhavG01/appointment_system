@@ -28,15 +28,15 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
-
+app.use('/api/form', FormRouter);
+app.use('/api/admin', AdminRouter);
 
 app.use(express.static(path.join(_dirname, '/client/dist')));
 
 app.get(/.*/, (_, res) => {
     res.sendFile(path.resolve(_dirname, 'client', 'dist', 'index.html'));
 })
-app.use('/api/form', FormRouter);
-app.use('/api/admin', AdminRouter);
+
 
 app.listen(PORT, () => {
     connectDB();
