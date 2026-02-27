@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://appointment-system-azyh.onrender.com/api/",
+    baseURL: "https://appointment-system-h4jq.onrender.com/api/",
 });
 
 api.interceptors.request.use((config) => {
